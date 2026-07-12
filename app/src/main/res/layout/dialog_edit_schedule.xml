@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/theme_background">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SCHEDULE DETAILS"
+            android:textColor="@color/theme_text_secondary"
+            android:textSize="13sp"
+            android:fontFamily="sans-serif-medium"
+            android:letterSpacing="0.05"
+            android:layout_marginBottom="12dp" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="@color/theme_surface">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etDialogLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Name (e.g. Morning-1)"
+                    android:background="@android:color/transparent"
+                    android:paddingVertical="12dp"
+                    android:textSize="17sp"
+                    android:textColor="@color/theme_text_primary"
+                    android:textColorHint="@color/theme_text_secondary"
+                    android:inputType="textCapSentences" />
+
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/theme_divider" />
+
+                <LinearLayout
+                    android:id="@+id/btnStartTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingVertical="12dp"
+                    android:gravity="center_vertical"
+                    android:clickable="true"
+                    android:focusable="true">
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Starts" android:textSize="17sp" android:textColor="@color/theme_text_primary"/>
+                    <TextView android:id="@+id/tvDialogStartTime" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="09:30 AM" android:textSize="17sp" android:textColor="@color/ios_blue"/>
+                </LinearLayout>
+
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/theme_divider" />
+
+                <LinearLayout
+                    android:id="@+id/btnEndTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingVertical="12dp"
+                    android:gravity="center_vertical"
+                    android:clickable="true"
+                    android:focusable="true">
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Ends" android:textSize="17sp" android:textColor="@color/theme_text_primary"/>
+                    <TextView android:id="@+id/tvDialogEndTime" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="11:30 AM" android:textSize="17sp" android:textColor="@color/ios_blue"/>
+                </LinearLayout>
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="RINGER MODE"
+            android:textColor="@color/theme_text_secondary"
+            android:textSize="13sp"
+            android:fontFamily="sans-serif-medium"
+            android:letterSpacing="0.05"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="12dp" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="@color/theme_surface">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <RadioGroup
+                    android:id="@+id/rgDialogMode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center">
+                    <RadioButton android:id="@+id/rbDialogVibrate" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Vibrate" android:textColor="@color/theme_text_primary" android:layout_marginEnd="12dp"/>
+                    <RadioButton android:id="@+id/rbDialogSilent" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Silent" android:textColor="@color/theme_text_primary" android:layout_marginEnd="12dp"/>
+                    <RadioButton android:id="@+id/rbDialogDnd" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="DND" android:textColor="@color/theme_text_primary" />
+                </RadioGroup>
+
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/theme_divider" android:layout_marginVertical="12dp"/>
+
+                <TextView android:id="@+id/tvVolumeLabel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Media Volume: 0%" android:textSize="15sp" android:textColor="@color/theme_text_secondary"/>
+                <com.google.android.material.slider.Slider
+                    android:id="@+id/sliderVolume"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:valueFrom="0"
+                    android:valueTo="100"
+                    android:stepSize="5"
+                    android:value="0"
+                    app:thumbColor="@color/ios_blue"
+                    app:trackColorActive="@color/ios_blue" />
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="REPEAT DAYS"
+            android:textColor="@color/theme_text_secondary"
+            android:textSize="13sp"
+            android:fontFamily="sans-serif-medium"
+            android:letterSpacing="0.05"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="12dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+            <CheckBox android:id="@+id/cbDialogSun" android:layout_width="32dp" android:layout_height="32dp" android:button="@null" android:background="@drawable/bg_day_circle" android:text="S" android:gravity="center" android:textColor="@color/selector_day_text" android:layout_margin="2dp" android:textSize="12sp"/>
+            <CheckBox android:id="@+id/cbDialogMon" android:layout_width="32dp" android:layout_height="32dp" android:button="@null" android:background="@drawable/bg_day_circle" android:text="M" android:gravity="center" android:textColor="@color/selector_day_text" android:layout_margin="2dp" android:textSize="12sp"/>
+            <CheckBox android:id="@+id/cbDialogTue" android:layout_width="32dp" android:layout_height="32dp" android:button="@null" android:background="@drawable/bg_day_circle" android:text="T" android:gravity="center" android:textColor="@color/selector_day_text" android:layout_margin="2dp" android:textSize="12sp"/>
+            <CheckBox android:id="@+id/cbDialogWed" android:layout_width="32dp" android:layout_height="32dp" android:button="@null" android:background="@drawable/bg_day_circle" android:text="W" android:gravity="center" android:textColor="@color/selector_day_text" android:layout_margin="2dp" android:textSize="12sp"/>
+            <CheckBox android:id="@+id/cbDialogThu" android:layout_width="32dp" android:layout_height="32dp" android:button="@null" android:background="@drawable/bg_day_circle" android:text="T" android:gravity="center" android:textColor="@color/selector_day_text" android:layout_margin="2dp" android:textSize="12sp"/>
+            <CheckBox android:id="@+id/cbDialogFri" android:layout_width="32dp" android:layout_height="32dp" android:button="@null" android:background="@drawable/bg_day_circle" android:text="F" android:gravity="center" android:textColor="@color/selector_day_text" android:layout_margin="2dp" android:textSize="12sp"/>
+            <CheckBox android:id="@+id/cbDialogSat" android:layout_width="32dp" android:layout_height="32dp" android:button="@null" android:background="@drawable/bg_day_circle" android:text="S" android:gravity="center" android:textColor="@color/selector_day_text" android:layout_margin="2dp" android:textSize="12sp"/>
+        </LinearLayout>
+
+        <View android:layout_width="match_parent" android:layout_height="40dp" />
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="@color/theme_background">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="QUICK SILENCE"
+        android:textColor="@color/theme_text_secondary"
+        android:textSize="13sp"
+        android:fontFamily="sans-serif-medium"
+        android:letterSpacing="0.05"
+        android:layout_marginBottom="12dp" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="0dp"
+        app:cardBackgroundColor="@color/theme_surface">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Silence duration (minutes)"
+                android:textColor="@color/theme_text_secondary"
+                android:textSize="14sp"
+                android:layout_marginBottom="8dp" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etQuickDuration"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="e.g. 15"
+                android:background="@android:color/transparent"
+                android:textSize="24sp"
+                android:fontFamily="sans-serif-medium"
+                android:textColor="@color/theme_text_primary"
+                android:textColorHint="@color/theme_text_secondary"
+                android:inputType="number"
+                android:gravity="center" />
+
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+</LinearLayout>

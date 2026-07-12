@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="theme_background">#000000</color>
+    <color name="theme_surface">#1C1C1E</color>
+    <color name="theme_text_primary">#FFFFFF</color>
+    <color name="theme_text_secondary">#98989D</color>
+    <color name="theme_divider">#38383A</color>
+    <color name="theme_track">#3A3A3C</color>
+    <color name="theme_thumb">#636366</color>
+</resources>

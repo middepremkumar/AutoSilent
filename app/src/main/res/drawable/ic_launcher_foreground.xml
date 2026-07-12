@@ -1,0 +1,40 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Bell Symbol (Off-white #F5F8FC) -->
+    <group
+        android:translateY="-3"> <!-- Slight upward bias -->
+        <!-- Top Knob -->
+        <path
+            android:fillColor="@color/icon_foreground"
+            android:pathData="M54,16c-2.8,0 -5,2.2 -5,5s2.2,5 5,5s5,-2.2 5,-5S56.8,16 54,16z"/>
+
+        <!-- Main Dome and Base -->
+        <path
+            android:fillColor="@color/icon_foreground"
+            android:pathData="M54,26c-16,0 -28,12 -28,27v15c0,5 -5,10 -8,12v4h72v-4c-3,-2 -8,-7 -8,-12V53C82,38 70,26 54,26z"/>
+
+        <!-- Clapper -->
+        <path
+            android:fillColor="@color/icon_foreground"
+            android:pathData="M54,92c-4.5,0 -8,-3.5 -8,-8h16C62,88.5 58.5,92 54,92z"/>
+    </group>
+
+    <!-- Slash "Gap" (Using the deep navy color to create separation) -->
+    <path
+        android:pathData="M22,86 L86,22"
+        android:strokeColor="@color/icon_gradient_end"
+        android:strokeWidth="10"
+        android:strokeLineCap="round"/>
+
+    <!-- Main Slash (Off-white) -->
+    <path
+        android:pathData="M22,86 L86,22"
+        android:strokeColor="@color/icon_foreground"
+        android:strokeWidth="6"
+        android:strokeLineCap="round"/>
+
+</vector>
