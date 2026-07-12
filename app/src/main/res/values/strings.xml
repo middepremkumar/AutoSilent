@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">AutoSilent</string>
+    <string name="enable_schedule">Enable work-hours schedule</string>
+    <string name="work_starts">Work starts (phone goes silent)</string>
+    <string name="work_ends">Work ends (phone goes back to normal)</string>
+    <string name="during_work_hours">During work hours</string>
+    <string name="mode_ring">Ring</string>
+    <string name="mode_vibrate">Vibrate</string>
+    <string name="mode_silent">Silent</string>
+    <string name="enable_lunch_break">Lunch break (switch mode temporarily)</string>
+    <string name="lunch_starts">Lunch starts</string>
+    <string name="lunch_ends">Lunch ends</string>
+    <string name="during_lunch">During lunch</string>
+    <string name="repeat_on">Repeat on</string>
+    <string name="monday">Monday</string>
+    <string name="tuesday">Tuesday</string>
+    <string name="wednesday">Wednesday</string>
+    <string name="thursday">Thursday</string>
+    <string name="friday">Friday</string>
+    <string name="saturday">Saturday</string>
+    <string name="sunday">Sunday</string>
+    <string name="save_schedule">Save schedule</string>
+    <string name="grant_dnd_access">Grant Do Not Disturb access</string>
+    <string name="dnd_status_granted">Do Not Disturb access: granted ✓</string>
+    <string name="dnd_status_missing">Do Not Disturb access: required — tap below to grant</string>
+    <string name="battery_status_granted">Battery optimization: exempted ✓ (alarms will run reliably)</string>
+    <string name="battery_status_missing">Battery optimization: on — your phone maker may kill this app\'s alarms in the background</string>
+    <string name="grant_battery_exemption">Disable battery optimization for this app</string>
+    <string name="tile_label">Silent Toggle</string>
+    <string name="tile_label_silent">Silent</string>
+    <string name="tile_label_normal">Normal</string>
+</resources>

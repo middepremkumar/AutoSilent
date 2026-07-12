@@ -1,0 +1,15 @@
+<resources>
+    <style name="Theme.AutoSilent" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/ios_blue</item>
+        <item name="colorPrimaryVariant">@color/ios_indigo</item>
+        <item name="colorOnPrimary">@android:color/white</item>
+        <item name="colorSecondary">@color/ios_blue</item>
+        <item name="colorOnSecondary">@android:color/white</item>
+
+        <item name="android:statusBarColor">@color/theme_background</item>
+        <item name="android:windowLightStatusBar">false</item>
+
+        <item name="android:windowBackground">@color/theme_background</item>
+        <item name="android:dividerVertical">@color/theme_divider</item>
+    </style>
+</resources>
