@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:background="@color/theme_background">
 
     <LinearLayout
@@ -147,14 +147,16 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center">
-            <CheckBox android:id="@+id/cbDialogSun" android:layout_width="40dp" android:layout_height="40dp" android:button="@null" android:background="@drawable/bg_day_circle" android:text="S" android:gravity="center" android:textColor="@color/theme_text_primary" android:layout_margin="4dp"/>
-            <CheckBox android:id="@+id/cbDialogMon" android:layout_width="40dp" android:layout_height="40dp" android:button="@null" android:background="@drawable/bg_day_circle" android:text="M" android:gravity="center" android:textColor="@color/theme_text_primary" android:layout_margin="4dp"/>
-            <CheckBox android:id="@+id/cbDialogTue" android:layout_width="40dp" android:layout_height="40dp" android:button="@null" android:background="@drawable/bg_day_circle" android:text="T" android:gravity="center" android:textColor="@color/theme_text_primary" android:layout_margin="4dp"/>
-            <CheckBox android:id="@+id/cbDialogWed" android:layout_width="40dp" android:layout_height="40dp" android:button="@null" android:background="@drawable/bg_day_circle" android:text="W" android:gravity="center" android:textColor="@color/theme_text_primary" android:layout_margin="4dp"/>
-            <CheckBox android:id="@+id/cbDialogThu" android:layout_width="40dp" android:layout_height="40dp" android:button="@null" android:background="@drawable/bg_day_circle" android:text="T" android:gravity="center" android:textColor="@color/theme_text_primary" android:layout_margin="4dp"/>
-            <CheckBox android:id="@+id/cbDialogFri" android:layout_width="40dp" android:layout_height="40dp" android:button="@null" android:background="@drawable/bg_day_circle" android:text="F" android:gravity="center" android:textColor="@color/theme_text_primary" android:layout_margin="4dp"/>
-            <CheckBox android:id="@+id/cbDialogSat" android:layout_width="40dp" android:layout_height="40dp" android:button="@null" android:background="@drawable/bg_day_circle" android:text="S" android:gravity="center" android:textColor="@color/theme_text_primary" android:layout_margin="4dp"/>
+            <CheckBox android:id="@+id/cbDialogSun" android:layout_width="32dp" android:layout_height="32dp" android:button="@null" android:background="@drawable/bg_day_circle" android:text="S" android:gravity="center" android:textColor="@color/selector_day_text" android:layout_margin="2dp" android:textSize="12sp"/>
+            <CheckBox android:id="@+id/cbDialogMon" android:layout_width="32dp" android:layout_height="32dp" android:button="@null" android:background="@drawable/bg_day_circle" android:text="M" android:gravity="center" android:textColor="@color/selector_day_text" android:layout_margin="2dp" android:textSize="12sp"/>
+            <CheckBox android:id="@+id/cbDialogTue" android:layout_width="32dp" android:layout_height="32dp" android:button="@null" android:background="@drawable/bg_day_circle" android:text="T" android:gravity="center" android:textColor="@color/selector_day_text" android:layout_margin="2dp" android:textSize="12sp"/>
+            <CheckBox android:id="@+id/cbDialogWed" android:layout_width="32dp" android:layout_height="32dp" android:button="@null" android:background="@drawable/bg_day_circle" android:text="W" android:gravity="center" android:textColor="@color/selector_day_text" android:layout_margin="2dp" android:textSize="12sp"/>
+            <CheckBox android:id="@+id/cbDialogThu" android:layout_width="32dp" android:layout_height="32dp" android:button="@null" android:background="@drawable/bg_day_circle" android:text="T" android:gravity="center" android:textColor="@color/selector_day_text" android:layout_margin="2dp" android:textSize="12sp"/>
+            <CheckBox android:id="@+id/cbDialogFri" android:layout_width="32dp" android:layout_height="32dp" android:button="@null" android:background="@drawable/bg_day_circle" android:text="F" android:gravity="center" android:textColor="@color/selector_day_text" android:layout_margin="2dp" android:textSize="12sp"/>
+            <CheckBox android:id="@+id/cbDialogSat" android:layout_width="32dp" android:layout_height="32dp" android:button="@null" android:background="@drawable/bg_day_circle" android:text="S" android:gravity="center" android:textColor="@color/selector_day_text" android:layout_margin="2dp" android:textSize="12sp"/>
         </LinearLayout>
 
+        <View android:layout_width="match_parent" android:layout_height="40dp" />
+
     </LinearLayout>
-</ScrollView>
+</androidx.core.widget.NestedScrollView>

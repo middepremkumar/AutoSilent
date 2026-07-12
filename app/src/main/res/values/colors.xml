@@ -23,7 +23,12 @@
     <color name="divider_light">@color/theme_divider</color>
     <color name="track_light">@color/theme_track</color>
 
+    <color name="icon_gradient_start">#4A5FE8</color>
+    <color name="icon_gradient_end">#1E2A78</color>
+    <color name="icon_foreground">#F5F8FC</color>
+
     <color name="primary">@color/ios_blue</color>
+
     <color name="accent">@color/ios_blue</color>
     <color name="ic_launcher_background">#000000</color>
 </resources>

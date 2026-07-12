@@ -39,13 +39,16 @@ class Prefs(context: Context) {
     fun getJntuaSchedules(): List<Schedule> {
         val jsonStr = sp.getString(KEY_JNTUA_SCHEDULES, null)
         if (jsonStr == null) {
-            // Default JNTUA template
+            // Default JNTUA template with stable IDs
             val weekDays = setOf(2, 3, 4, 5, 6) // Mon-Fri
-            return listOf(
-                Schedule(label = "Morning-1", startTimeMinutes = 9 * 60 + 30, endTimeMinutes = 11 * 60 + 30, days = weekDays, mode = RingerChoice.VIBRATE),
-                Schedule(label = "Morning-2", startTimeMinutes = 11 * 60 + 45, endTimeMinutes = 12 * 60 + 45, days = weekDays, mode = RingerChoice.VIBRATE),
-                Schedule(label = "Afternoon", startTimeMinutes = 13 * 60 + 45, endTimeMinutes = 16 * 60 + 45, days = weekDays, mode = RingerChoice.VIBRATE)
+            val defaults = listOf(
+                Schedule(id = "jntua_m1", label = "Morning-1", startTimeMinutes = 9 * 60 + 30, endTimeMinutes = 11 * 60 + 30, days = weekDays, mode = RingerChoice.VIBRATE),
+                Schedule(id = "jntua_m2", label = "Morning-2", startTimeMinutes = 11 * 60 + 45, endTimeMinutes = 12 * 60 + 45, days = weekDays, mode = RingerChoice.VIBRATE),
+                Schedule(id = "jntua_a1", label = "Afternoon", startTimeMinutes = 13 * 60 + 45, endTimeMinutes = 16 * 60 + 45, days = weekDays, mode = RingerChoice.VIBRATE)
             )
+            // Save them immediately so they become persistent
+            saveJntuaSchedules(defaults)
+            return defaults
         }
         return parseSchedules(jsonStr)
     }

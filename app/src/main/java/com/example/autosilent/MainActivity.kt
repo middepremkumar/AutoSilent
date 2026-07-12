@@ -110,6 +110,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView() {
+        binding.rvSchedules.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this)
         adapter = ScheduleAdapter(
             schedules = prefs.getSchedules(),
             onEdit = { showEditDialog(it) },
@@ -125,6 +126,7 @@ class MainActivity : AppCompatActivity() {
         if (index != -1) {
             schedules[index] = schedule.copy(enabled = isEnabled)
             prefs.saveSchedules(schedules)
+            adapter.updateData(schedules)
             AlarmScheduler.scheduleAll(this)
         }
     }
@@ -182,19 +184,19 @@ class MainActivity : AppCompatActivity() {
         }
 
         val dayViews = mapOf(
+            Calendar.SUNDAY to dialogBinding.cbDialogSun,
             Calendar.MONDAY to dialogBinding.cbDialogMon,
             Calendar.TUESDAY to dialogBinding.cbDialogTue,
             Calendar.WEDNESDAY to dialogBinding.cbDialogWed,
             Calendar.THURSDAY to dialogBinding.cbDialogThu,
             Calendar.FRIDAY to dialogBinding.cbDialogFri,
-            Calendar.SATURDAY to dialogBinding.cbDialogSat,
-            Calendar.SUNDAY to dialogBinding.cbDialogSun
+            Calendar.SATURDAY to dialogBinding.cbDialogSat
         )
         for ((day, cb) in dayViews) {
             cb.isChecked = selectedDays.contains(day)
         }
 
-        AlertDialog.Builder(this)
+        val dialog = AlertDialog.Builder(this)
             .setTitle(if (isNew) "Add Schedule" else "Edit Schedule")
             .setView(dialogBinding.root)
             .setPositiveButton("Save") { _, _ ->
@@ -225,7 +227,16 @@ class MainActivity : AppCompatActivity() {
                 AlarmScheduler.scheduleAll(this)
             }
             .setNegativeButton("Cancel", null)
-            .show()
+            .create()
+
+        dialog.show()
+        
+        // Make the dialog wider
+        val window = dialog.window
+        window?.setLayout(
+            (resources.displayMetrics.widthPixels * 0.9).toInt(),
+            android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+        )
     }
 
     override fun onResume() {
