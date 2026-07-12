@@ -1,4 +1,4 @@
-package com.example.autosilent
+package com.middepremkumar.autosilent
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -13,7 +13,7 @@ class QuickSilenceReceiver : BroadcastReceiver() {
         AlarmReceiver.applyRingerMode(context, RingerChoice.RING, -1)
         
         // Update UI if app is open (we'll use a local broadcast or just let the app refresh onResume)
-        val refreshIntent = Intent("com.example.autosilent.REFRESH_UI")
+        val refreshIntent = Intent("com.middepremkumar.autosilent.REFRESH_UI")
         context.sendBroadcast(refreshIntent)
     }
 }

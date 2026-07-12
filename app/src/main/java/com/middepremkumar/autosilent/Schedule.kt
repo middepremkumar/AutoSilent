@@ -1,4 +1,4 @@
-package com.example.autosilent
+package com.middepremkumar.autosilent
 
 import org.json.JSONArray
 import org.json.JSONObject

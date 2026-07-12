@@ -1,4 +1,4 @@
-package com.example.autosilent
+package com.middepremkumar.autosilent
 
 import android.content.BroadcastReceiver
 import android.content.Context

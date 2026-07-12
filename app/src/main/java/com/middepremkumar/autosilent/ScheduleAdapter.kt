@@ -1,9 +1,9 @@
-package com.example.autosilent
+package com.middepremkumar.autosilent
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.autosilent.databinding.ItemScheduleBinding
+import com.middepremkumar.autosilent.databinding.ItemScheduleBinding
 import java.util.Calendar
 
 class ScheduleAdapter(

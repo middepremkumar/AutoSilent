@@ -1,4 +1,4 @@
-package com.example.autosilent
+package com.middepremkumar.autosilent
 
 import android.app.AlarmManager
 import android.app.PendingIntent
@@ -9,7 +9,7 @@ import java.util.Calendar
 
 object AlarmScheduler {
 
-    const val ACTION_SET_MODE = "com.example.autosilent.ACTION_SET_MODE"
+    const val ACTION_SET_MODE = "com.middepremkumar.autosilent.ACTION_SET_MODE"
     const val EXTRA_SCHEDULE_ID = "extra_schedule_id"
     const val EXTRA_TYPE = "extra_type"               // "START" or "END"
     const val EXTRA_DAY_OF_WEEK = "extra_day_of_week"

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "303234550960",
+    "project_id": "autosilent-ba4a8",
+    "storage_bucket": "autosilent-ba4a8.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:303234550960:android:6bbc172a000402b03b7f75",
+        "android_client_info": {
+          "package_name": "com.middepremkumar.autosilent"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-MtVNGtKaAAlK2oKLBho-9e6uoFhRZp4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

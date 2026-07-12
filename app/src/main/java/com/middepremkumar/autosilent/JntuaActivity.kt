@@ -1,12 +1,12 @@
-package com.example.autosilent
+package com.middepremkumar.autosilent
 
 import android.app.TimePickerDialog
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import com.example.autosilent.databinding.ActivityJntuaBinding
-import com.example.autosilent.databinding.DialogEditScheduleBinding
+import com.middepremkumar.autosilent.databinding.ActivityJntuaBinding
+import com.middepremkumar.autosilent.databinding.DialogEditScheduleBinding
 import java.util.Calendar
 
 class JntuaActivity : AppCompatActivity() {

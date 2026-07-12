@@ -1,4 +1,4 @@
-package com.example.autosilent
+package com.middepremkumar.autosilent
 
 import android.media.AudioManager
 import android.service.quicksettings.Tile

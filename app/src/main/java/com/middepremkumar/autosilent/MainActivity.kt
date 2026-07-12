@@ -1,4 +1,4 @@
-package com.example.autosilent
+package com.middepremkumar.autosilent
 
 import android.app.AlarmManager
 import android.app.NotificationManager
@@ -27,8 +27,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
-import com.example.autosilent.databinding.ActivityMainBinding
-import com.example.autosilent.databinding.DialogEditScheduleBinding
+import com.middepremkumar.autosilent.databinding.ActivityMainBinding
+import com.middepremkumar.autosilent.databinding.DialogEditScheduleBinding
 import com.google.android.material.color.MaterialColors
 import java.util.Calendar
 import java.util.concurrent.TimeUnit
@@ -327,7 +327,7 @@ class MainActivity : AppCompatActivity() {
         ContextCompat.registerReceiver(
             this,
             refreshReceiver,
-            IntentFilter("com.example.autosilent.REFRESH_UI"),
+            IntentFilter("com.middepremkumar.autosilent.REFRESH_UI"),
             ContextCompat.RECEIVER_NOT_EXPORTED
         )
         handler.post(updateRunnable)
