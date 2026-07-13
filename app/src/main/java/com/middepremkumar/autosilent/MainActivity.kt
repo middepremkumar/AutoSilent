@@ -321,6 +321,17 @@ class MainActivity : AppCompatActivity() {
         val endTime = System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(minutes.toLong())
         prefs.setQuickSilenceEnd(endTime)
         
+        // Save current mode to restore it later
+        val audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        
+        val currentMode = when {
+            notificationManager.currentInterruptionFilter >= NotificationManager.INTERRUPTION_FILTER_PRIORITY -> RingerChoice.DND
+            audioManager.ringerMode == AudioManager.RINGER_MODE_VIBRATE -> RingerChoice.VIBRATE
+            audioManager.ringerMode == AudioManager.RINGER_MODE_SILENT -> RingerChoice.SILENT
+            else -> RingerChoice.RING
+        }
+        prefs.setPreSilenceMode(currentMode.ordinal)
+
         // Log Analytics
         val bundle = Bundle().apply {
             putString("rule_type", "quick_silence")

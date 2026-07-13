@@ -17,10 +17,14 @@ class Prefs(context: Context) {
         private const val KEY_JNTUA_SCHEDULES = "jntua_schedules_json"
         private const val KEY_DARK_MODE = "dark_mode"
         private const val KEY_QUICK_SILENCE_END = "quick_silence_end"
+        private const val KEY_PRE_SILENCE_MODE = "pre_silence_mode"
     }
 
     fun getQuickSilenceEnd(): Long = sp.getLong(KEY_QUICK_SILENCE_END, 0L)
     fun setQuickSilenceEnd(timeMs: Long) = sp.edit().putLong(KEY_QUICK_SILENCE_END, timeMs).apply()
+
+    fun getPreSilenceMode(): Int = sp.getInt(KEY_PRE_SILENCE_MODE, -1)
+    fun setPreSilenceMode(mode: Int) = sp.edit().putInt(KEY_PRE_SILENCE_MODE, mode).apply()
 
     fun isEnabled(): Boolean = sp.getBoolean(KEY_ENABLED, false)
     fun setEnabled(value: Boolean) = sp.edit().putBoolean(KEY_ENABLED, value).apply()

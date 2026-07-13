@@ -18,8 +18,12 @@ class QuickSilenceReceiver : BroadcastReceiver() {
         }
         FirebaseAnalytics.getInstance(context).logEvent("silence_rule_triggered", bundle)
 
-        // Restore to RING mode
-        AlarmReceiver.applyRingerMode(context, RingerChoice.RING, -1)
+        val preModeIndex = prefs.getPreSilenceMode()
+        val preMode = if (preModeIndex != -1) RingerChoice.values()[preModeIndex] else RingerChoice.RING
+        
+        // Restore to previous mode
+        AlarmReceiver.applyRingerMode(context, preMode, -1)
+        prefs.setPreSilenceMode(-1)
         
         // Update UI if app is open (we'll use a local broadcast or just let the app refresh onResume)
         val refreshIntent = Intent("com.middepremkumar.autosilent.REFRESH_UI")

@@ -20,6 +20,13 @@ class AlarmReceiver : BroadcastReceiver() {
         val dayOfWeek = intent.getIntExtra(AlarmScheduler.EXTRA_DAY_OF_WEEK, -1)
 
         val prefs = Prefs(context)
+
+        // If Quick Silence is active, don't let scheduled alarms interrupt it
+        if (prefs.getQuickSilenceEnd() > System.currentTimeMillis()) {
+            Log.d("AutoSilent", "Ignoring scheduled alarm because Quick Silence is active")
+            return
+        }
+
         val schedule = prefs.getSchedules().find { it.id == scheduleId } ?: return
 
         if (!schedule.enabled || !schedule.days.contains(dayOfWeek)) return
