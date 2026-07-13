@@ -27,6 +27,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.middepremkumar.autosilent.databinding.ActivityMainBinding
 import com.middepremkumar.autosilent.databinding.DialogEditScheduleBinding
 import com.google.android.material.color.MaterialColors
@@ -65,6 +67,13 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        if (BuildConfig.DEBUG) {
+            binding.tvTitle.setOnLongClickListener {
+                FirebaseCrashlytics.getInstance().log("Testing crash reporting (Long Press)")
+                throw RuntimeException("Test Crash - Long Press")
+            }
+        }
 
         updateUiForTheme()
 
@@ -308,6 +317,13 @@ class MainActivity : AppCompatActivity() {
         val endTime = System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(minutes.toLong())
         prefs.setQuickSilenceEnd(endTime)
         
+        // Log Analytics
+        val bundle = Bundle().apply {
+            putString("rule_type", "quick_silence")
+            putInt("duration_minutes", minutes)
+        }
+        FirebaseAnalytics.getInstance(this).logEvent("silence_rule_triggered", bundle)
+
         // Apply Silence
         AlarmReceiver.applyRingerMode(this, RingerChoice.SILENT, 0)
         

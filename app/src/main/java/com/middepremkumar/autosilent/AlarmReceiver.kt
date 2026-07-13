@@ -5,7 +5,10 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.media.AudioManager
+import android.os.Bundle
 import android.util.Log
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 
 class AlarmReceiver : BroadcastReceiver() {
 
@@ -22,8 +25,10 @@ class AlarmReceiver : BroadcastReceiver() {
         if (!schedule.enabled || !schedule.days.contains(dayOfWeek)) return
 
         if (type == "START") {
+            logAnalyticsEvent(context, "time", "START", schedule.mode.name)
             applyRingerMode(context, schedule.mode, schedule.volumePercent)
         } else {
+            logAnalyticsEvent(context, "time", "END", "RING")
             applyRingerMode(context, RingerChoice.RING, -1) // -1 to restore
         }
 
@@ -71,6 +76,7 @@ class AlarmReceiver : BroadcastReceiver() {
                 }
             } catch (e: Exception) {
                 Log.e("AutoSilent", "Error applying ringer mode", e)
+                FirebaseCrashlytics.getInstance().recordException(e)
             }
         }
 
@@ -91,6 +97,15 @@ class AlarmReceiver : BroadcastReceiver() {
                 audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, saved, 0)
                 prefs.setSavedMediaVolume(-1)
             }
+        }
+
+        private fun logAnalyticsEvent(context: Context, ruleType: String, action: String, mode: String) {
+            val bundle = Bundle().apply {
+                putString("rule_type", ruleType)
+                putString("action", action)
+                putString("mode", mode)
+            }
+            FirebaseAnalytics.getInstance(context).logEvent("silence_rule_triggered", bundle)
         }
     }
 }

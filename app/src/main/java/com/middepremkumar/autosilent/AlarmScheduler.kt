@@ -4,7 +4,9 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.os.Bundle
 import android.util.Log
+import com.google.firebase.analytics.FirebaseAnalytics
 import java.util.Calendar
 
 object AlarmScheduler {
@@ -65,10 +67,20 @@ object AlarmScheduler {
             val currentSchedule = schedules.find { 
                 currentDay in it.days && currentMinutes >= it.startTimeMinutes && currentMinutes < it.endTimeMinutes 
             }
+            logAnalyticsEvent(context, "time_immediate", "START", activeMode.name)
             AlarmReceiver.applyRingerMode(context, activeMode, currentSchedule?.volumePercent ?: 0)
         } else {
             AlarmReceiver.applyRingerMode(context, RingerChoice.RING, -1)
         }
+    }
+
+    private fun logAnalyticsEvent(context: Context, ruleType: String, action: String, mode: String) {
+        val bundle = Bundle().apply {
+            putString("rule_type", ruleType)
+            putString("action", action)
+            putString("mode", mode)
+        }
+        FirebaseAnalytics.getInstance(context).logEvent("silence_rule_triggered", bundle)
     }
 
     private fun scheduleAlarm(context: Context, schedule: Schedule, dayOfWeek: Int, type: String): Int {
