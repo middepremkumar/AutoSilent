@@ -1,6 +1,5 @@
 package com.middepremkumar.autosilent
 
-import android.app.TimePickerDialog
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -53,29 +52,21 @@ class JntuaActivity : AppCompatActivity() {
         dialogBinding.tvDialogStartTime.text = formatMinutes(startMin)
         dialogBinding.tvDialogEndTime.text = formatMinutes(endMin)
         dialogBinding.etDialogLabel.setText(schedule.label ?: "")
+        dialogBinding.etDialogLabel.isEnabled = false
+
         dialogBinding.sliderVolume.value = volume.toFloat()
+        dialogBinding.sliderVolume.isEnabled = false
         dialogBinding.tvVolumeLabel.text = "Media Volume: $volume%"
         
-        dialogBinding.sliderVolume.addOnChangeListener { _, value, _ ->
-            volume = value.toInt()
-            dialogBinding.tvVolumeLabel.text = "Media Volume: $volume%"
-        }
-        
         dialogBinding.tvDialogStartTime.setOnClickListener {
-            TimePickerDialog(this, { _, h, m ->
-                startMin = h * 60 + m
-                dialogBinding.tvDialogStartTime.text = formatMinutes(startMin)
-            }, startMin / 60, startMin % 60, false).show()
+            // Disabled for JNTUA
         }
-        dialogBinding.btnStartTime.setOnClickListener { dialogBinding.tvDialogStartTime.performClick() }
+        dialogBinding.btnStartTime.isEnabled = false
         
         dialogBinding.tvDialogEndTime.setOnClickListener {
-            TimePickerDialog(this, { _, h, m ->
-                endMin = h * 60 + m
-                dialogBinding.tvDialogEndTime.text = formatMinutes(endMin)
-            }, endMin / 60, endMin % 60, false).show()
+            // Disabled for JNTUA
         }
-        dialogBinding.btnEndTime.setOnClickListener { dialogBinding.tvDialogEndTime.performClick() }
+        dialogBinding.btnEndTime.isEnabled = false
 
         when (schedule.mode) {
             RingerChoice.SILENT -> dialogBinding.rgDialogMode.check(R.id.rbDialogSilent)
@@ -94,6 +85,7 @@ class JntuaActivity : AppCompatActivity() {
         )
         for ((day, cb) in dayViews) {
             cb.isChecked = selectedDays.contains(day)
+            cb.isEnabled = false
         }
 
         val dialog = AlertDialog.Builder(this)

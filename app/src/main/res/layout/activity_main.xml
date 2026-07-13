@@ -33,7 +33,10 @@
                     android:textColor="@color/theme_text_primary"
                     android:textSize="28sp"
                     android:fontFamily="sans-serif-black"
-                    android:letterSpacing="-0.02" />
+                    android:letterSpacing="-0.02"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?attr/selectableItemBackground" />
 
                 <!-- Compact Segmented Toggle in Top Right -->
                 <LinearLayout

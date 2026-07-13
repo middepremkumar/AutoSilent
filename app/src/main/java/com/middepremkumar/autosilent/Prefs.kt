@@ -46,9 +46,9 @@ class Prefs(context: Context) {
             // Default JNTUA template with stable IDs
             val weekDays = setOf(2, 3, 4, 5, 6) // Mon-Fri
             val defaults = listOf(
-                Schedule(id = "jntua_m1", label = "Morning-1", startTimeMinutes = 9 * 60 + 30, endTimeMinutes = 11 * 60 + 30, days = weekDays, mode = RingerChoice.VIBRATE),
-                Schedule(id = "jntua_m2", label = "Morning-2", startTimeMinutes = 11 * 60 + 45, endTimeMinutes = 12 * 60 + 45, days = weekDays, mode = RingerChoice.VIBRATE),
-                Schedule(id = "jntua_a1", label = "Afternoon", startTimeMinutes = 13 * 60 + 45, endTimeMinutes = 16 * 60 + 45, days = weekDays, mode = RingerChoice.VIBRATE)
+                Schedule(id = "jntua_m1", label = "Morning-Alpha", startTimeMinutes = 9 * 60 + 30, endTimeMinutes = 11 * 60 + 30, days = weekDays, mode = RingerChoice.VIBRATE),
+                Schedule(id = "jntua_m2", label = "Morning-Beta", startTimeMinutes = 11 * 60 + 45, endTimeMinutes = 12 * 60 + 45, days = weekDays, mode = RingerChoice.VIBRATE),
+                Schedule(id = "jntua_a1", label = "Afternoon-Gamma", startTimeMinutes = 13 * 60 + 45, endTimeMinutes = 16 * 60 + 45, days = weekDays, mode = RingerChoice.VIBRATE)
             )
             // Save them immediately so they become persistent
             saveJntuaSchedules(defaults)

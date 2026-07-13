@@ -40,6 +40,11 @@
             android:label="JNTUA Schedule"
             android:parentActivityName=".MainActivity" />
 
+        <activity
+            android:name=".DeveloperActivity"
+            android:label="Developer"
+            android:parentActivityName=".MainActivity" />
+
         <!-- Fires at work start / work end times to flip ringer mode -->
         <receiver
             android:name=".AlarmReceiver"

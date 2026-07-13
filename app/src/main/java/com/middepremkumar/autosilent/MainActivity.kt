@@ -112,6 +112,10 @@ class MainActivity : AppCompatActivity() {
         binding.layoutJntuaInfo.setOnClickListener {
             startActivity(Intent(this, JntuaActivity::class.java))
         }
+
+        binding.tvTitle.setOnClickListener {
+            startActivity(Intent(this, DeveloperActivity::class.java))
+        }
         
         AlarmScheduler.scheduleAll(this)
 

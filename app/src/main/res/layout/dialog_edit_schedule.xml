@@ -38,7 +38,7 @@
                     android:id="@+id/etDialogLabel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Name (e.g. Morning-1)"
+                    android:hint="Name (e.g. Morning-Alpha)"
                     android:background="@android:color/transparent"
                     android:paddingVertical="12dp"
                     android:textSize="17sp"
