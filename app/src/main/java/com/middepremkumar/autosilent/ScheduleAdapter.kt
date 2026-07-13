@@ -8,9 +8,11 @@ import java.util.Calendar
 
 class ScheduleAdapter(
     private var schedules: List<Schedule>,
+    private val hideDelete: Boolean = false,
+    private val hideSwitch: Boolean = false,
     private val onEdit: (Schedule) -> Unit,
-    private val onDelete: (Schedule) -> Unit,
-    private val onToggle: (Schedule, Boolean) -> Unit
+    private val onDelete: (Schedule) -> Unit = {},
+    private val onToggle: (Schedule, Boolean) -> Unit = { _, _ -> }
 ) : RecyclerView.Adapter<ScheduleAdapter.ViewHolder>() {
 
     class ViewHolder(val binding: ItemScheduleBinding) : RecyclerView.ViewHolder(binding.root)
@@ -41,6 +43,9 @@ class ScheduleAdapter(
         holder.binding.switchScheduleEnabled.setOnCheckedChangeListener { _, isChecked ->
             onToggle(schedule, isChecked)
         }
+
+        holder.binding.switchScheduleEnabled.visibility = if (hideSwitch) android.view.View.GONE else android.view.View.VISIBLE
+        holder.binding.btnDelete.visibility = if (hideDelete) android.view.View.GONE else android.view.View.VISIBLE
 
         holder.binding.btnEdit.setOnClickListener { onEdit(schedule) }
         holder.binding.btnDelete.setOnClickListener { onDelete(schedule) }

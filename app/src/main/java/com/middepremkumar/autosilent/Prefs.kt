@@ -42,19 +42,35 @@ class Prefs(context: Context) {
 
     fun getJntuaSchedules(): List<Schedule> {
         val jsonStr = sp.getString(KEY_JNTUA_SCHEDULES, null)
+        val weekDays = setOf(2, 3, 4, 5, 6) // Mon-Fri
+        val defaults = listOf(
+            Schedule(id = "jntua_m1", label = "Morning-Alpha", startTimeMinutes = 9 * 60 + 30, endTimeMinutes = 11 * 60 + 30, days = weekDays, mode = RingerChoice.VIBRATE),
+            Schedule(id = "jntua_m2", label = "Morning-Beta", startTimeMinutes = 11 * 60 + 45, endTimeMinutes = 12 * 60 + 45, days = weekDays, mode = RingerChoice.VIBRATE),
+            Schedule(id = "jntua_a1", label = "Afternoon-Gamma", startTimeMinutes = 13 * 60 + 45, endTimeMinutes = 16 * 60 + 45, days = weekDays, mode = RingerChoice.VIBRATE)
+        )
+
         if (jsonStr == null) {
-            // Default JNTUA template with stable IDs
-            val weekDays = setOf(2, 3, 4, 5, 6) // Mon-Fri
-            val defaults = listOf(
-                Schedule(id = "jntua_m1", label = "Morning-Alpha", startTimeMinutes = 9 * 60 + 30, endTimeMinutes = 11 * 60 + 30, days = weekDays, mode = RingerChoice.VIBRATE),
-                Schedule(id = "jntua_m2", label = "Morning-Beta", startTimeMinutes = 11 * 60 + 45, endTimeMinutes = 12 * 60 + 45, days = weekDays, mode = RingerChoice.VIBRATE),
-                Schedule(id = "jntua_a1", label = "Afternoon-Gamma", startTimeMinutes = 13 * 60 + 45, endTimeMinutes = 16 * 60 + 45, days = weekDays, mode = RingerChoice.VIBRATE)
-            )
-            // Save them immediately so they become persistent
             saveJntuaSchedules(defaults)
             return defaults
         }
-        return parseSchedules(jsonStr)
+
+        // Force labels to match the new template
+        val saved = parseSchedules(jsonStr)
+        val updated = saved.map { s ->
+            when (s.id) {
+                "jntua_m1" -> s.copy(label = "Morning-Alpha")
+                "jntua_m2" -> s.copy(label = "Morning-Beta")
+                "jntua_a1" -> s.copy(label = "Afternoon-Gamma")
+                else -> s
+            }
+        }
+        
+        // If any label was updated, save it back
+        if (updated != saved) {
+            saveJntuaSchedules(updated)
+        }
+        
+        return updated
     }
 
     fun saveJntuaSchedules(schedules: List<Schedule>) {

@@ -34,9 +34,9 @@ class JntuaActivity : AppCompatActivity() {
         binding.rvJntuaSchedules.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this)
         adapter = ScheduleAdapter(
             schedules = prefs.getJntuaSchedules(),
-            onEdit = { showEditDialog(it) },
-            onDelete = { /* Disable delete for JNTUA template to keep it simple */ },
-            onToggle = { _, _ -> /* Toggled together in main screen */ }
+            hideDelete = true,
+            hideSwitch = true,
+            onEdit = { showEditDialog(it) }
         )
         binding.rvJntuaSchedules.adapter = adapter
     }
