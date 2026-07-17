@@ -9,7 +9,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.res.ColorStateList
-import android.graphics.Color
 import android.media.AudioManager
 import android.net.Uri
 import android.os.Bundle
@@ -17,22 +16,23 @@ import android.os.Handler
 import android.os.Looper
 import android.os.PowerManager
 import android.provider.Settings
-import android.text.InputType
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.EditText
-import android.widget.FrameLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 import com.middepremkumar.autosilent.databinding.ActivityMainBinding
 import com.middepremkumar.autosilent.databinding.DialogEditScheduleBinding
-import com.google.android.material.color.MaterialColors
 import java.util.Calendar
+import java.util.Locale
 import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
@@ -68,13 +68,6 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        if (BuildConfig.DEBUG) {
-            binding.tvTitle.setOnLongClickListener {
-                FirebaseCrashlytics.getInstance().log("Testing crash reporting (Long Press)")
-                throw RuntimeException("Test Crash - Long Press")
-            }
-        }
-
         updateUiForTheme()
 
         setupRecyclerView()
@@ -99,6 +92,9 @@ class MainActivity : AppCompatActivity() {
             if (isChecked) {
                 maybeRequestDndAccess()
                 requestBatteryExemption()
+                startService(Intent(this, SilenceService::class.java))
+            } else {
+                stopService(Intent(this, SilenceService::class.java))
             }
             AlarmScheduler.scheduleAll(this)
         }
@@ -117,6 +113,10 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, DeveloperActivity::class.java))
         }
         
+        if (prefs.isEnabled()) {
+            startService(Intent(this, SilenceService::class.java))
+        }
+        
         AlarmScheduler.scheduleAll(this)
 
         binding.fabAdd.setOnClickListener {
@@ -130,6 +130,98 @@ class MainActivity : AppCompatActivity() {
         binding.btnGrantBattery.setOnClickListener {
             requestBatteryExemption()
         }
+
+        checkExactAlarmPermission()
+        requestNotificationPermission()
+        checkForUpdates()
+
+        binding.tvQuickSilenceTimer.setOnClickListener {
+            AlertDialog.Builder(this)
+                .setTitle("End Quick Silence?")
+                .setMessage("Do you want to restore your original ringer mode now?")
+                .setPositiveButton("End Now") { _, _ ->
+                    endQuickSilenceEarly()
+                }
+                .setNegativeButton("Keep Silent", null)
+                .show()
+        }
+    }
+
+    private fun checkExactAlarmPermission() {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+            val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
+            if (!alarmManager.canScheduleExactAlarms()) {
+                AlertDialog.Builder(this)
+                    .setTitle("Permission Required")
+                    .setMessage("To trigger silences exactly on time while the screen is off, the app needs 'Exact Alarm' permission. Please allow it in the next screen.")
+                    .setPositiveButton("Grant") { _, _ ->
+                        startActivity(Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM).apply {
+                            data = "package:$packageName".toUri()
+                        })
+                    }
+                    .setNegativeButton("Later", null)
+                    .show()
+            }
+        }
+    }
+
+    private fun checkForUpdates() {
+        val remoteConfig = FirebaseRemoteConfig.getInstance()
+        val configSettings = FirebaseRemoteConfigSettings.Builder()
+            .setMinimumFetchIntervalInSeconds(3600) // Check every hour
+            .build()
+        remoteConfig.setConfigSettingsAsync(configSettings)
+        
+        // Default values
+        val defaults = mapOf(
+            "latest_version_code" to BuildConfig.VERSION_CODE.toLong(),
+            "update_url" to "https://github.com/middepremkumar/AutoSilent/releases"
+        )
+        remoteConfig.setDefaultsAsync(defaults)
+
+        remoteConfig.fetchAndActivate().addOnCompleteListener(this) { task ->
+            if (task.isSuccessful) {
+                val latestVersion = remoteConfig.getLong("latest_version_code")
+                val updateUrl = remoteConfig.getString("update_url")
+
+                if (latestVersion > BuildConfig.VERSION_CODE) {
+                    showUpdateDialog(updateUrl)
+                }
+            }
+        }
+    }
+
+    private fun showUpdateDialog(url: String) {
+        AlertDialog.Builder(this)
+            .setTitle("New Update Available")
+            .setMessage("A new version of AutoSilent is available. Please update to get the latest features and fixes.")
+            .setPositiveButton("Update Now") { _, _ ->
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                startActivity(intent)
+            }
+            .setNegativeButton("Later", null)
+            .setCancelable(false)
+            .show()
+    }
+
+    private fun requestNotificationPermission() {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) != android.content.pm.PackageManager.PERMISSION_GRANTED) {
+                androidx.core.app.ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.POST_NOTIFICATIONS), 101)
+            }
+        }
+    }
+
+    private fun endQuickSilenceEarly() {
+        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val intent = Intent(this, QuickSilenceReceiver::class.java)
+        val pendingIntent = PendingIntent.getBroadcast(
+            this, 999, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+        alarmManager.cancel(pendingIntent)
+
+        // Trigger the restoration logic immediately
+        sendBroadcast(Intent(this, QuickSilenceReceiver::class.java))
     }
 
     private fun updateUiForTheme() {
@@ -193,11 +285,11 @@ class MainActivity : AppCompatActivity() {
         dialogBinding.tvDialogEndTime.text = formatMinutes(endMin)
         dialogBinding.etDialogLabel.setText(schedule?.label ?: "")
         dialogBinding.sliderVolume.value = volume.toFloat()
-        dialogBinding.tvVolumeLabel.text = "Media Volume: $volume%"
+        dialogBinding.tvVolumeLabel.text = String.format(Locale.getDefault(), "Media Volume: %d%%", volume)
         
         dialogBinding.sliderVolume.addOnChangeListener { _, value, _ ->
             volume = value.toInt()
-            dialogBinding.tvVolumeLabel.text = "Media Volume: $volume%"
+            dialogBinding.tvVolumeLabel.text = String.format(Locale.getDefault(), "Media Volume: %d%%", volume)
         }
 
         dialogBinding.tvDialogStartTime.setOnClickListener {
@@ -258,7 +350,7 @@ class MainActivity : AppCompatActivity() {
                 if (isNew) {
                     schedules.add(newSchedule)
                 } else {
-                    val index = schedules.indexOfFirst { it.id == schedule!!.id }
+                    val index = schedules.indexOfFirst { it.id == schedule.id }
                     if (index != -1) schedules[index] = newSchedule
                 }
                 prefs.saveSchedules(schedules)
@@ -410,7 +502,7 @@ class MainActivity : AppCompatActivity() {
             val remaining = quickEnd - System.currentTimeMillis()
             val min = TimeUnit.MILLISECONDS.toMinutes(remaining)
             val sec = TimeUnit.MILLISECONDS.toSeconds(remaining) % 60
-            binding.tvQuickSilenceTimer.text = String.format("Ends in: %02d:%02d", min, sec)
+            binding.tvQuickSilenceTimer.text = String.format(Locale.getDefault(), "Ends in: %02d:%02d", min, sec)
             binding.tvQuickSilenceTimer.visibility = View.VISIBLE
         } else {
             binding.tvQuickSilenceTimer.visibility = View.GONE
@@ -434,7 +526,7 @@ class MainActivity : AppCompatActivity() {
         val powerManager = getSystemService(POWER_SERVICE) as PowerManager
         if (!powerManager.isIgnoringBatteryOptimizations(packageName)) {
             val intent = Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS).apply {
-                data = Uri.parse("package:$packageName")
+                data = "package:$packageName".toUri()
             }
             startActivity(intent)
         }
@@ -449,6 +541,6 @@ class MainActivity : AppCompatActivity() {
             h > 12 -> h - 12
             else -> h
         }
-        return String.format("%d:%02d %s", h12, m, amPm)
+        return String.format(Locale.getDefault(), "%d:%02d %s", h12, m, amPm)
     }
 }

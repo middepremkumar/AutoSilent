@@ -34,14 +34,41 @@ class AlarmReceiver : BroadcastReceiver() {
         if (type == "START") {
             logAnalyticsEvent(context, "time", "START", schedule.mode.name)
             applyRingerMode(context, schedule.mode, schedule.volumePercent)
+            showNotification(context, "Silence Active", "Mode: ${schedule.mode.name} (Scheduled)")
         } else {
             logAnalyticsEvent(context, "time", "END", "RING")
             applyRingerMode(context, RingerChoice.RING, -1) // -1 to restore
+            cancelNotification(context)
         }
 
         if (prefs.isEnabled()) {
             AlarmScheduler.scheduleAll(context) 
         }
+    }
+
+    private fun showNotification(context: Context, title: String, message: String) {
+        val channelId = "silence_alerts"
+        val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            val channel = android.app.NotificationChannel(channelId, "Silence Status", NotificationManager.IMPORTANCE_LOW)
+            notificationManager.createNotificationChannel(channel)
+        }
+
+        val notification = androidx.core.app.NotificationCompat.Builder(context, channelId)
+            .setSmallIcon(R.drawable.ic_tile_silent)
+            .setContentTitle(title)
+            .setContentText(message)
+            .setOngoing(true)
+            .setPriority(androidx.core.app.NotificationCompat.PRIORITY_LOW)
+            .build()
+
+        notificationManager.notify(1001, notification)
+    }
+
+    private fun cancelNotification(context: Context) {
+        val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.cancel(1001)
     }
 
     companion object {

@@ -13,6 +13,10 @@
     <!-- Lets us prompt the user to exempt this app from battery optimization,
          so OEMs (Xiaomi, Samsung, OnePlus, etc.) don't kill the scheduled alarms -->
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
 
     <application
         android:allowBackup="true"
@@ -63,6 +67,14 @@
         <receiver
             android:name=".QuickSilenceReceiver"
             android:exported="false" />
+
+        <service
+            android:name=".SilenceService"
+            android:foregroundServiceType="specialUse"
+            android:exported="false">
+            <property android:name="android.app.PROPERTY_SPECIAL_USE_FGS_TYPE_DESCRIPTION"
+                android:value="Ensures that scheduled ringer mode changes (e.g. silent mode during meetings) are triggered reliably in the background." />
+        </service>
 
         <!-- Quick Settings tile: manual override, e.g. "unsilence early today" -->
         <service
