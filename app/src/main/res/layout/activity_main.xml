@@ -38,6 +38,16 @@
                     android:focusable="true"
                     android:background="?attr/selectableItemBackground" />
 
+                <ImageButton
+                    android:id="@+id/btnCheckUpdate"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@android:drawable/stat_sys_download"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    app:tint="@color/ios_blue"
+                    android:layout_marginEnd="12dp"
+                    android:contentDescription="@string/check_updates" />
+
                 <!-- Compact Segmented Toggle in Top Right -->
                 <LinearLayout
                     android:id="@+id/toggleAppearance"
@@ -320,5 +330,18 @@
         app:tint="@android:color/white"
         app:backgroundTint="@color/ios_blue"
         app:elevation="4dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnReportIssue"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|start"
+        android:layout_margin="16dp"
+        android:text="@string/report_issue"
+        android:textColor="@color/theme_text_secondary"
+        android:textSize="12sp"
+        android:textAllCaps="false"
+        app:rippleColor="@color/ios_red" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

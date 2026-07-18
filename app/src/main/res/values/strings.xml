@@ -30,4 +30,6 @@
     <string name="tile_label_silent">Silent</string>
     <string name="tile_label_normal">Normal</string>
     <string name="profile_photo_desc">Developer profile photo</string>
+    <string name="report_issue">⚠️ Report Issue</string>
+    <string name="check_updates">Check for updates</string>
 </resources>

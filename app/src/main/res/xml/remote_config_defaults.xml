@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<defaultsMap>
+    <entry>
+        <key>latest_version_code</key>
+        <value>1</value>
+    </entry>
+    <entry>
+        <key>update_url</key>
+        <value>https://github.com/middepremkumar/AutoSilent/releases/download/v1.0/app-release.apk</value>
+    </entry>
+</defaultsMap>

@@ -131,9 +131,17 @@ class MainActivity : AppCompatActivity() {
             requestBatteryExemption()
         }
 
+        binding.btnCheckUpdate.setOnClickListener {
+            checkForUpdates(manual = true)
+        }
+
+        binding.btnReportIssue.setOnClickListener {
+            sendReportEmail()
+        }
+
         checkExactAlarmPermission()
         requestNotificationPermission()
-        checkForUpdates()
+        checkForUpdates(manual = false)
 
         binding.tvQuickSilenceTimer.setOnClickListener {
             AlertDialog.Builder(this)
@@ -144,6 +152,32 @@ class MainActivity : AppCompatActivity() {
                 }
                 .setNegativeButton("Keep Silent", null)
                 .show()
+        }
+    }
+
+    private fun sendReportEmail() {
+        val body = """
+            --- Device Info ---
+            Model: ${android.os.Build.MODEL}
+            Android Version: ${android.os.Build.VERSION.RELEASE} (SDK ${android.os.Build.VERSION.SDK_INT})
+            App Version: ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})
+            
+            Please describe the issue below:
+            --------------------------------
+            
+        """.trimIndent()
+
+        val intent = Intent(Intent.ACTION_SENDTO).apply {
+            data = Uri.parse("mailto:")
+            putExtra(Intent.EXTRA_EMAIL, arrayOf("middepremkumar@gmail.com"))
+            putExtra(Intent.EXTRA_SUBJECT, "AutoSilent Issue Report")
+            putExtra(Intent.EXTRA_TEXT, body)
+        }
+        
+        try {
+            startActivity(Intent.createChooser(intent, "Send Report via..."))
+        } catch (e: Exception) {
+            android.widget.Toast.makeText(this, "No email app found.", android.widget.Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -165,28 +199,36 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun checkForUpdates() {
+    private fun checkForUpdates(manual: Boolean) {
         val remoteConfig = FirebaseRemoteConfig.getInstance()
+        
+        // Test mode: check immediately if manual, otherwise check every hour
+        val interval = if (manual) 0L else 3600L
         val configSettings = FirebaseRemoteConfigSettings.Builder()
-            .setMinimumFetchIntervalInSeconds(3600) // Check every hour
+            .setMinimumFetchIntervalInSeconds(interval) 
             .build()
         remoteConfig.setConfigSettingsAsync(configSettings)
         
-        // Default values
-        val defaults = mapOf(
-            "latest_version_code" to BuildConfig.VERSION_CODE.toLong(),
-            "update_url" to "https://github.com/middepremkumar/AutoSilent/releases"
-        )
-        remoteConfig.setDefaultsAsync(defaults)
+        // 1 & 2. Load defaults from the XML file
+        remoteConfig.setDefaultsAsync(R.xml.remote_config_defaults)
 
+        if (manual) {
+            android.widget.Toast.makeText(this, "Checking for updates...", android.widget.Toast.LENGTH_SHORT).show()
+        }
+
+        // 4. Fetch and activate values from the server
         remoteConfig.fetchAndActivate().addOnCompleteListener(this) { task ->
             if (task.isSuccessful) {
                 val latestVersion = remoteConfig.getLong("latest_version_code")
                 val updateUrl = remoteConfig.getString("update_url")
-
+                
                 if (latestVersion > BuildConfig.VERSION_CODE) {
                     showUpdateDialog(updateUrl)
+                } else if (manual) {
+                    android.widget.Toast.makeText(this, "Your app is up to date!", android.widget.Toast.LENGTH_SHORT).show()
                 }
+            } else if (manual) {
+                android.widget.Toast.makeText(this, "Failed to check for updates.", android.widget.Toast.LENGTH_SHORT).show()
             }
         }
     }
