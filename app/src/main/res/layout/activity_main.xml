@@ -331,17 +331,16 @@
         app:backgroundTint="@color/ios_blue"
         app:elevation="4dp" />
 
-    <com.google.android.material.button.MaterialButton
+    <ImageButton
         android:id="@+id/btnReportIssue"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:layout_gravity="bottom|start"
-        android:layout_margin="16dp"
-        android:text="@string/report_issue"
-        android:textColor="@color/theme_text_secondary"
-        android:textSize="12sp"
-        android:textAllCaps="false"
-        app:rippleColor="@color/ios_red" />
+        android:layout_margin="24dp"
+        android:src="@android:drawable/ic_dialog_alert"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        app:tint="@color/theme_text_secondary"
+        android:scaleType="fitCenter"
+        android:contentDescription="@string/report_issue" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
